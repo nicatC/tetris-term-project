@@ -1,0 +1,3 @@
+/home/nevermind/CLionProjects/tetris-term-project/cmake-build-debug/CMakeFiles/tetris_term_project.dir
+/home/nevermind/CLionProjects/tetris-term-project/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/nevermind/CLionProjects/tetris-term-project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
