@@ -17,7 +17,11 @@ public:
     void moveRight();
     void drawPiece(sf::RenderWindow& window, int x, int y, int sizeOfBlock);
     bool checkCollision() const;
+    bool checkCollisionRight() const;
+    bool checkCollisionLeft() const;
+    bool checkCollisionUp() const;
     void placeOnBoard();
+    void moveDownFast(Board& gameBoard);
     void applyBoard() ;
     const sf::Vector2i& getCurrentPosition() const{
         return currentPosition;
@@ -28,6 +32,7 @@ private:
     sf::Color pieceColor;
     sf::Vector2i currentPosition;
     Board& gameBoard;
+    float fallSpeedMultiplier;
 };
 
 

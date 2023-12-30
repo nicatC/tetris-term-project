@@ -25,8 +25,8 @@ public:
 private:
     sf::RenderWindow& window;
     int defaultBlockSize;
-    static const int boardWidth = 10;
-    static const int boardHeight = 20;
+    static const int boardWidth = 18;
+    static const int boardHeight = 24;
     int grid[boardHeight][boardWidth];
 };
 

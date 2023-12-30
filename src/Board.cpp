@@ -55,6 +55,9 @@ void Board::setOccupied(int x, int y) {
 void Board::setGridCell(int x, int y, int value) {
     grid[y][x] = value;
 }
+int Board::getBoardWidth() const {
+    return boardWidth;
+}
 bool Board::isCollision(const Piece& piece) const {
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {

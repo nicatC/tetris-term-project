@@ -5,7 +5,7 @@
 #include "../header/Piece.h"
 #include "../header/Board.h"
 #include <SFML/Graphics.hpp>
-Piece::Piece(int (*initialShape)[3], sf::Color color, Board& gameBoard) : pieceColor(color), gameBoard(gameBoard) {
+Piece::Piece(int (*initialShape)[3], sf::Color color, Board& gameBoard) : pieceColor(color), gameBoard(gameBoard), fallSpeedMultiplier(2.0f) {
     for(int i=0; i<3; i++){
         for (int j = 0; j < 3; ++j) {
             shape[i][j]= initialShape[i][j];
@@ -27,17 +27,31 @@ void Piece::moveDown() {
     if (!checkCollision()) {
         currentPosition.y += 1;
     } else {
+        currentPosition.y -= 1;
         applyBoard();
     }
 }
-
+void Piece::moveDownFast(Board& gameBoard) {
+    if (checkCollision()) {
+        applyBoard();
+    } else {
+        currentPosition.y += static_cast<int>(fallSpeedMultiplier);
+    }
+}
 void Piece::moveLeft() {
-    currentPosition.x -= 1;
+    if (!checkCollisionLeft()) {
+        currentPosition.x -= 1;
+    }
+
 }
 
 void Piece::moveRight() {
-    currentPosition.x += 1;
+    if (!checkCollisionRight()) {
+        currentPosition.x += 1;
+    }
 }
+
+
 bool Piece::checkCollision() const {
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
@@ -52,6 +66,41 @@ bool Piece::checkCollision() const {
     }
     return false;
 }
+bool Piece::checkCollisionRight() const {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (shape[i][j] == 1) {
+                int boardX = currentPosition.x + j + 1;
+                int boardY = currentPosition.y + i;
+                if (boardX >= gameBoard.getBoardWidth()) {
+                    return true;
+                }
+                if (boardX < gameBoard.getBoardWidth() && gameBoard.isOccupied(boardX, boardY)) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool Piece::checkCollisionLeft() const {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (shape[i][j] == 1) {
+                int boardX = currentPosition.x + j - 1;
+                int boardY = currentPosition.y + i;
+
+                if (boardX < 0 || gameBoard.isOccupied(boardX, boardY)) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
 void Piece::placeOnBoard() {
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
@@ -75,7 +124,7 @@ void Piece::applyBoard() {
             if (shape[i][j] == 1) {
                 int boardX = currentPosition.x + j;
                 int boardY = currentPosition.y + i;
-                gameBoard.setOccupied(boardX, boardY); // Tahtada bu konumu işaretle
+                gameBoard.setOccupied(boardX, boardY); // tahtada bu konumu işaretlemek icin
             }
         }
     }
