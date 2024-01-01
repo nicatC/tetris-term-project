@@ -5,13 +5,29 @@
 #include "../header/Piece.h"
 #include "../header/Board.h"
 #include <SFML/Graphics.hpp>
-Piece::Piece(int (*initialShape)[3], sf::Color color, Board& gameBoard) : pieceColor(color), gameBoard(gameBoard), fallSpeedMultiplier(2.0f) {
+/*
+ * Piece::Piece(int initialShape[3][3], sf::Color color, Board& gameBoard)
+        : pieceColor(color), gameBoard(gameBoard), fallSpeedMultiplier(2.0f) {
+
     for(int i=0; i<3; i++){
         for (int j = 0; j < 3; ++j) {
             shape[i][j]= initialShape[i][j];
         }
     }
 };
+ const int Piece::lShape[3][3] = {{1, 0, 0}, {1, 1, 1}, {0, 0, 0}};
+const int Piece::plusShape[3][3] = {{0, 1, 0}, {1, 1, 1}, {0, 1, 0}};
+ * */
+
+Piece::Piece(sf::RenderWindow& window, int defaultBlockSize, Board& gameBoard)
+        : pieceColor(sf::Color::Green), gameBoard(gameBoard), fallSpeedMultiplier(2.0f) {
+    // İlk parçayı rastgele seç
+    srand(static_cast<unsigned int>(time(nullptr)));
+    selectRandomPiece();
+}
+
+
+
 void Piece::setPosition(sf::Vector2i position) {
     currentPosition = position;
 }
@@ -129,7 +145,86 @@ void Piece::applyBoard() {
         }
     }
     currentPosition = sf::Vector2i(-1, -1);
+
+
 }
+
+void::Piece::selectRandomPiece(){
+    PieceType types[] = { L, Plus , SmallSquare, CornerPiece, TallTower, Zigzag, UShape, StepShape, ArrowPointingUp, DoubleZigzag, Pyramid };
+    currentPieceType = types[rand() % (sizeof(types) / sizeof(types[0]))];
+
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            shape[i][j] = 0;
+        }
+    }
+
+    switch (currentPieceType) {
+        case L:
+            pieceColor = sf::Color::Green;
+            shape[0][1] = shape[1][1] = shape[2][1] = shape[1][0] = shape[1][2] = 1;
+
+            break;
+
+        case Plus:
+            pieceColor = sf::Color::Yellow;
+            shape[0][1] = shape[1][1] = shape[2][1] = shape[1][0] = shape[1][2] = 1;
+            break;
+        case SmallSquare:
+            pieceColor = sf::Color::Red;
+            shape[0][0] = shape[0][1] = shape[1][0] = shape[1][1] = 1;
+            break;
+
+        case CornerPiece:
+            pieceColor = sf::Color::Blue;
+            shape[0][1] = shape[1][1] = shape[1][0] = 1;
+            break;
+
+        case TallTower:
+            pieceColor = sf::Color::Cyan;
+            shape[0][0] = shape[1][0] = shape[2][0] = 1;
+            break;
+
+        case Zigzag:
+            pieceColor = sf::Color::Transparent;
+            shape[0][1] = shape[1][0] = shape[1][1] = shape[2][0] = 1;
+            break;
+
+        case UShape:
+            pieceColor = sf::Color::Black;
+            shape[0][0] = shape[0][2] = shape[1][0] = shape[1][1] = shape[1][2] = 1;
+            break;
+
+        case StepShape:
+            pieceColor = sf::Color::Red;
+            shape[0][0] = shape[1][0] = shape[1][1] = shape[2][1] = 1;
+            break;
+
+        case ArrowPointingUp:
+            pieceColor = sf::Color::Blue;
+            shape[0][1] = shape[1][0] = shape[1][1] = shape[1][2] = shape[2][1] = 1;
+            break;
+
+        case DoubleZigzag:
+            pieceColor = sf::Color::Green;
+            shape[0][1] = shape[1][0] = shape[1][1] = shape[2][2] = 1;
+            break;
+
+        case Pyramid:
+            pieceColor = sf::Color::Yellow;
+            shape[0][1] = shape[1][0] = shape[1][1] = shape[1][2] = 1;
+            break;
+
+        default:
+            break;
+    }
+}
+void Piece::useCurrentPiece() {
+
+    gameBoard.applyBoard(*this);
+}
+
+
 void Piece::drawPiece(sf::RenderWindow &window, int x, int y, int sizeOfBlock) {
     sf::RectangleShape block(sf::Vector2f(sizeOfBlock, sizeOfBlock));
     block.setOutlineThickness(1);
@@ -145,3 +240,4 @@ void Piece::drawPiece(sf::RenderWindow &window, int x, int y, int sizeOfBlock) {
         }
     }
 }
+
