@@ -19,6 +19,10 @@ public:
     bool isOccupied(int x, int y) const;
     int getBoardWidth() const;
     void applyBoard(const Piece& piece);
+    void setGameOver(bool value);
+    bool isGameOver() const;
+    void restart();
+    void clearBoard();
     int getBoardHeight() const {
         return boardHeight;
     }
@@ -28,6 +32,7 @@ private:
     static const int boardWidth = 18;
     static const int boardHeight = 24;
     int grid[boardHeight][boardWidth];
+    bool gameOver = false;
 };
 
 

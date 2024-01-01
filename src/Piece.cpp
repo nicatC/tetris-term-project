@@ -5,19 +5,6 @@
 #include "../header/Piece.h"
 #include "../header/Board.h"
 #include <SFML/Graphics.hpp>
-/*
- * Piece::Piece(int initialShape[3][3], sf::Color color, Board& gameBoard)
-        : pieceColor(color), gameBoard(gameBoard), fallSpeedMultiplier(2.0f) {
-
-    for(int i=0; i<3; i++){
-        for (int j = 0; j < 3; ++j) {
-            shape[i][j]= initialShape[i][j];
-        }
-    }
-};
- const int Piece::lShape[3][3] = {{1, 0, 0}, {1, 1, 1}, {0, 0, 0}};
-const int Piece::plusShape[3][3] = {{0, 1, 0}, {1, 1, 1}, {0, 1, 0}};
- * */
 
 Piece::Piece(sf::RenderWindow& window, int defaultBlockSize, Board& gameBoard)
         : pieceColor(sf::Color::Green), gameBoard(gameBoard), fallSpeedMultiplier(2.0f) {
@@ -141,6 +128,9 @@ void Piece::applyBoard() {
                 int boardX = currentPosition.x + j;
                 int boardY = currentPosition.y + i;
                 gameBoard.setOccupied(boardX, boardY); // tahtada bu konumu işaretlemek icin
+                if (currentPosition.y <= 0) {
+                    gameBoard.setGameOver(true);
+                }
             }
         }
     }
@@ -161,9 +151,8 @@ void::Piece::selectRandomPiece(){
 
     switch (currentPieceType) {
         case L:
-            pieceColor = sf::Color::Green;
-            shape[0][1] = shape[1][1] = shape[2][1] = shape[1][0] = shape[1][2] = 1;
-
+            pieceColor = sf::Color::Black;
+            shape[0][0] = shape[1][0] = shape[2][0] = shape[2][1] = 1;
             break;
 
         case Plus:
@@ -206,7 +195,7 @@ void::Piece::selectRandomPiece(){
             break;
 
         case DoubleZigzag:
-            pieceColor = sf::Color::Green;
+            pieceColor = sf::Color::Red;
             shape[0][1] = shape[1][0] = shape[1][1] = shape[2][2] = 1;
             break;
 

@@ -15,8 +15,6 @@ class Piece {
 public:
     enum PieceType { L, Plus, SmallSquare, CornerPiece, TallTower, Zigzag, UShape, StepShape, ArrowPointingUp, DoubleZigzag, Pyramid};
     Piece(sf::RenderWindow& window, int defaultBlockSize, Board& gameBoard);
-    //Piece(int initialShape[3][3], sf::Color color, Board& gameBoard);
-    //Piece(int[3]);
     void selectRandomPiece();
     void useCurrentPiece();
     void setPosition(sf::Vector2i position);
@@ -32,7 +30,6 @@ public:
     void placeOnBoard();
     void moveDownFast(Board& gameBoard);
     void applyBoard() ;
-
     const sf::Vector2i& getCurrentPosition() const{
         return currentPosition;
     };

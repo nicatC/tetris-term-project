@@ -10,8 +10,6 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(900,1500), "TETRIS");
     window.setFramerateLimit(60);
     int defaultBlockSize = 50;
-    //int lShape[3][3]= {{1,0,0},{1,0,0},{1,1,1}};
-    //int plusShape[3][3] = {{0,1,0},{1,1,1},{0,1,0}};
 
     Board gameBoard(window, defaultBlockSize);
     Piece currentPiece(window, defaultBlockSize, gameBoard);
@@ -31,6 +29,31 @@ int main() {
                 window.close();
             }
         }
+        if (gameBoard.isGameOver()) {
+            // Oyun bittiğinde ekrana yazı yazdırabilirsiniz.
+            // Bu kısım size bağlı, istediğiniz gibi düzenleyebilirsiniz.
+
+             // kullanmak istediğiniz bir font dosyasını seçin
+
+            sf::Text text;
+            sf::Font font;
+            if (!font.loadFromFile("../fonts/font.ttf")) {
+                return EXIT_FAILURE;
+            }
+
+            text.setFont(font);
+            text.setString("Game Over!");
+            text.setCharacterSize(50);
+            text.setPosition(300, 500);
+            text.setFillColor(sf::Color::Red);
+
+            window.draw(text);
+            window.display();
+
+            sf::sleep(sf::seconds(5));
+            window.close();
+            return 0;
+        }
         elapsed += clock.restart();
         if (elapsed >= moveInterval) {
             if (!currentPiece.checkCollision()) {
@@ -39,6 +62,10 @@ int main() {
                 currentPiece.applyBoard();
                 currentPiece.setCenter(window, defaultBlockSize);
                 currentPiece.selectRandomPiece();
+
+                if (currentPiece.checkCollision()) {
+                    gameBoard.setGameOver(true);
+                }
             }
 
             elapsed = sf::Time::Zero;

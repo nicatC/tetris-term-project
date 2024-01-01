@@ -20,6 +20,9 @@
         } else {
             piece.applyBoard();
             piece.setCenter(window, defaultBlockSize);
+            if (piece.checkCollision()) {
+                gameOver = true;
+            }
         }
     }
 
@@ -49,8 +52,22 @@
             }
         }
     }
+    void Board::clearBoard() {
+        for (int i = 0; i < boardHeight; ++i) {
+            for (int j = 0; j < boardWidth; ++j) {
+                grid[i][j] = 0;
+            }
+        }
+    }
     void Board::setOccupied(int x, int y) {
         grid[y][x] = 1;
+    }
+    void Board::setGameOver(bool value) {
+        gameOver = value;
+    }
+
+    bool Board::isGameOver() const {
+        return gameOver;
     }
 
     void Board::setGridCell(int x, int y, int value) {
