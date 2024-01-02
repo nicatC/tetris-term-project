@@ -1,4 +1,4 @@
-Introduction
+
 This project is about creating a Tetris game using C++ and SFML. The main goal is to build a game with interactive features, like moving and rotating pieces, and a graphical display.
 Methodology
 I tried to approached the project by breaking it into two main parts: the Piece and the Board. The main aim of the piece class is  handling individual tetris pieces, and the board class manages the game board. I used sfml to deal with graphics and user input.
