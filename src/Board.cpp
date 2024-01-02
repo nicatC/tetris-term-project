@@ -58,6 +58,7 @@
                 grid[i][j] = 0;
             }
         }
+        gameOver = false;
     }
     void Board::setOccupied(int x, int y) {
         grid[y][x] = 1;
@@ -94,4 +95,8 @@
     bool Board::isOccupied(int x, int y) const {
 
         return grid[y][x] == 1;
+    }
+    void Board::restart() {
+        clearBoard();
+        setGameOver(false);
     }

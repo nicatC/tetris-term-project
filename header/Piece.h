@@ -22,6 +22,7 @@ public:
     void moveDown() ;
     void moveLeft();
     void moveRight();
+    void rotate();
     void drawPiece(sf::RenderWindow& window, int x, int y, int sizeOfBlock);
     bool checkCollision() const;
     bool checkCollisionRight() const;
@@ -42,8 +43,8 @@ private:
     sf::Vector2i currentPosition;
     Board& gameBoard;
     float fallSpeedMultiplier;
-    //sf::RenderWindow& window;
     PieceType currentPieceType;
+    int rotationState;
 
 };
 

@@ -229,4 +229,20 @@ void Piece::drawPiece(sf::RenderWindow &window, int x, int y, int sizeOfBlock) {
         }
     }
 }
+//-1 gun
+void Piece::rotate() {
+    int tempShape[3][3];
+    for (int i = 0; i < 3; ++i){
+        for (int j = 0; j < 3; ++j){
+            tempShape[i][j] = shape[i][j];
+        }
+    }
 
+    for (int i = 0; i < 3; ++i){
+        for (int j = 0; j < 3; ++j){
+            shape[i][j] = tempShape[2 - j][i];
+        }
+    }
+
+    rotationState = (rotationState + 1) % 4;
+}
